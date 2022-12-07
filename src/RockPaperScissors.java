@@ -1,30 +1,17 @@
 import java.util.Random;
 import java.util.Scanner;
-
 public class RockPaperScissors {
-    private User user;
-    private Computer computer;
-    private int userScore;
-    private int computerScore;
-    private int numberOfGames;
+    private static User user;
+    private static Computer computer;
+    private static int userScore;
+    private static int computerScore;
+    private static int numberOfGames;
 
     private enum Move {
-        ROCK, PAPER, SCISSORS;
-
-        /**
-         * Сравнивает текущий ход с переданным в параметре otherMove и определяет
-         * победу, поражение или ничью.
-         *
-         * @param otherMove
-         *            ход, с которым сравнивается текущий
-         * @return 1 если текущий ход бьет другой, -1 если другой ход бьет текущий,
-         *         0 в случае ничьей
-         */
+        ROCK, PAPER, SCISSORS, SPOCK, LIZARD;
         public int compareMoves(Move otherMove) {
-            // Ничья
             if (this == otherMove)
                 return 0;
-
             switch (this) {
                 case ROCK:
                     return (otherMove == SCISSORS ? 1 : -1);
@@ -32,10 +19,22 @@ public class RockPaperScissors {
                     return (otherMove == ROCK ? 1 : -1);
                 case SCISSORS:
                     return (otherMove == PAPER ? 1 : -1);
+                case LIZARD:
+                    return (otherMove == SPOCK? 1 : -1);
+                case SPOCK:
+                    return (otherMove == ROCK? 1 : -1);
+            }switch (this){
+                case LIZARD:
+                    return (otherMove == PAPER? 1 : -1);
+                case ROCK:
+                    return (otherMove == LIZARD? 1 : -1);
+                case SPOCK:
+                    return (otherMove == SCISSORS? 1 : -1);
+                case PAPER:
+                    return (otherMove == SPOCK? 1 : -1);
+                case SCISSORS:
+                    return (otherMove == LIZARD? 1 : -1);
             }
-
-            // Этот код не должен выполняться никогда
-
             return 0;
         }
     }
@@ -48,15 +47,10 @@ public class RockPaperScissors {
         }
 
         public Move getMove() {
-            // Выведем запрос на ввод
-            System.out.print("Камень, ножницы или бумага? ");
-
-            // Прочитаем ввод пользователя
             String userInput = inputScanner.nextLine();
             userInput = userInput.toUpperCase();
             char firstLetter = userInput.charAt(0);
-            if (firstLetter == 'К' || firstLetter == 'Н' || firstLetter == 'Б') {
-                // Ввод корректный
+            if (firstLetter == 'К' || firstLetter == 'Н' || firstLetter == 'Б' || firstLetter == 'Я' || firstLetter == 'С') {
                 switch (firstLetter) {
                     case 'К':
                         return Move.ROCK;
@@ -64,18 +58,23 @@ public class RockPaperScissors {
                         return Move.PAPER;
                     case 'Б':
                         return Move.SCISSORS;
+                    case 'Я':
+                        return Move.LIZARD;
+                    case 'С':
+                        return  Move.SPOCK;
                 }
             }
-
-            // Ввод некорректный. Выведем запрос на ввод снова.
             return getMove();
         }
 
+
         public boolean playAgain() {
-            System.out.print("Хотите сыграть еще раз? ");
+            System.out.println("Хотите сыграть еще раз? ");
+            System.out.println("Если да, то напишите букву Д");
+            System.out.println("Если хотите выйте, то нажмите любую кнопку");
             String userInput = inputScanner.nextLine();
             userInput = userInput.toUpperCase();
-            return userInput.charAt(0) == 'Y';
+            return userInput.charAt(0) == 'Д';
         }
     }
 
@@ -86,6 +85,7 @@ public class RockPaperScissors {
             int index = random.nextInt(moves.length);
             return moves[index];
         }
+
     }
 
     public RockPaperScissors() {
@@ -96,8 +96,52 @@ public class RockPaperScissors {
         numberOfGames = 0;
     }
 
-    public void startGame() {
+    public static void startGame() {
         System.out.println("КАМЕНЬ, НОЖНИЦЫ, БУМАГА!");
+        System.out.println("Выберите режим игры");
+        System.out.println("Обычный - 0");
+        System.out.println("Усложненный - 1");
+        Scanner in = new Scanner(System.in);
+        int gameLvl = in.nextInt();
+        if(gameLvl == 0){
+            easyLvl();
+        } else if (gameLvl == 1){
+            hardLvl();
+        } else {
+            startGame();
+        }
+
+    }
+    static  void easyLvl(){
+        System.out.println("Камень - К, Ножницы - Н, Бумага - Б ");
+        Move userMove = user.getMove();
+        Move computerMove = computer.getMove();
+        System.out.println("\nВаш ход " + userMove + ".");
+        System.out.println("Ход компьютера " + computerMove + ".\n");
+        int compareMoves = userMove.compareMoves(computerMove);
+        switch (compareMoves) {
+            case 0:
+                System.out.println("Draw!");
+                break;
+            case 1:
+                System.out.println(userMove + " beats " + computerMove + ". Вы победили!");
+                userScore++;
+                break;
+            case -1:
+                System.out.println(computerMove + " beats " + userMove + ". Вы проиграли.");
+                computerScore++;
+                break;
+        }
+        numberOfGames++;
+
+        if (user.playAgain()) {
+            startGame();
+        } else {
+            printGameStats();
+        }
+    }
+    static void hardLvl(){
+        System.out.println("Камень - К, Ножницы - Н, Бумага  - Б, Ящерица - Я, Спок - С");
 
         // Получение ходов
         Move userMove = user.getMove();
@@ -109,7 +153,7 @@ public class RockPaperScissors {
         int compareMoves = userMove.compareMoves(computerMove);
         switch (compareMoves) {
             case 0: // Ничья
-                System.out.println("Tie!");
+                System.out.println("Draw!");
                 break;
             case 1: // Победил игрок
                 System.out.println(userMove + " beats " + computerMove + ". Вы победили!");
@@ -121,36 +165,25 @@ public class RockPaperScissors {
                 break;
         }
         numberOfGames++;
-
-        // Предложим пользователю сыграть еще раз
         if (user.playAgain()) {
-            System.out.println();
-            startGame();
+            hardLvl();
         } else {
             printGameStats();
         }
     }
-
-    /**
-     * Вывод статистики. Ничьи учитываются как полпобеды
-     * при подсчете процента побед.
-     */
-    private void printGameStats() {
+    private static void printGameStats() {
         int wins = userScore;
         int losses = computerScore;
         int ties = numberOfGames - userScore - computerScore;
         double percentageWon = (wins + ((double) ties) / 2) / numberOfGames;
 
-        // Вывод линии
         System.out.print("+");
         printDashes(68);
         System.out.println("+");
 
-        // Вывод заголовков таблицы
         System.out.printf("|  %6s  |  %6s  |  %6s  |  %12s  |  %14s  |\n",
-                "WINS", "LOSSES", "TIES", "GAMES PLAYED", "PERCENTAGE WON");
+                "WINS", "LOSSES", "DRAWS", "GAMES PLAYED", "PERCENTAGE WON");
 
-        // Вывод линии
         System.out.print("|");
         printDashes(10);
         System.out.print("+");
@@ -163,17 +196,15 @@ public class RockPaperScissors {
         printDashes(18);
         System.out.println("|");
 
-        // Вывод значений
         System.out.printf("|  %6d  |  %6d  |  %6d  |  %12d  |  %13.2f%%  |\n",
                 wins, losses, ties, numberOfGames, percentageWon * 100);
 
-        // Вывод линии
         System.out.print("+");
         printDashes(68);
         System.out.println("+");
     }
 
-    private void printDashes(int numberOfDashes) {
+    private static void printDashes(int numberOfDashes) {
         for (int i = 0; i < numberOfDashes; i++) {
             System.out.print("-");
         }
