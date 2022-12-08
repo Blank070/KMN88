@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cacb0f44-dd93-4d50-86e7-ac19e9f74597" name="Changes" comment="">
+    <list default="true" id="cacb0f44-dd93-4d50-86e7-ac19e9f74597" name="Changes" comment="kmn">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RockPaperScissors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RockPaperScissors.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +47,14 @@
       <option name="presentableId" value="Default" />
       <updated>1670346399649</updated>
     </task>
+    <task id="LOCAL-00001" summary="kmn">
+      <created>1670436238198</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1670436238199</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -60,5 +67,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="kmn" />
+    <option name="LAST_COMMIT_MESSAGE" value="kmn" />
   </component>
 </project>
