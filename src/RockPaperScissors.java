@@ -1,6 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 public class RockPaperScissors {
+    // comment
     private static User user;
     private static Computer computer;
     private static int userScore;
